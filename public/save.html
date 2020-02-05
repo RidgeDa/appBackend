@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewWebApp</title>
+    <link rel="stylesheet" href="newWebapp.CSS">
+    <!-- development version, includes helpful console warnings -->
+    <!--This link is to load the view file-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+</head>
+
+<body>
+<div class="grid-container">
+        <header>       
+                <img id='logo' src="" alt="logo"> 
+                <h1>Apply for courses</h1> 
+                
+                   
+       <!--This is to create the registation form so that user could type in an email and password-->         
+    <form id="signup">
+        <h1>Signup</h1>
+        <!--the for attribute specifies which form element a label is bound to-->
+        <label for="email">email: </label>
+        <!--The required type specifies that an input field must be filled out before submitting the form-->
+        <input required type="email" id="email" v-model='email'>
+        <br><br>
+        <label for="password">password: </label>
+        <!--The v-model directive binds the value of HTML elements to application data-->
+        <input required type="password" id="password" v-model='password'>
+        <br><br>
+        <!--v-on:click is to listen to events and run some javascript when triggerd-->
+        <button v-on:click='onSubmit'>SignUp</button>
+    </form>
+    <br><br>
+    
+    
+  
+<!--Action is there to take the user to the studentParents page when logged in-->
+    <form id="login-out" action="courses.html">
+        <p>Login</p>
+        <label for="email">email: </label>
+        <input required type="email" id="email" v-model='email'>
+        <br><br>
+        <label for="password">password: </label>
+        <input required type="password" id="password" v-model='password'>
+        <br><br>
+        <label for="role">Role:</label>
+        <select name="role" v-model="currentRole" >
+            <option>student</option>
+            <option>parent</option>
+            <option value="provider">Service Provider</option>
+        </select>
+        <br><br>
+        <button v-on:click='onSubmit'>Login</button>
+        <br><br>
+        <button v-on:click='outSubmit'>Logout</button>
+    </form>
+
+</header>
+
+    
+<script>
+//This is a view instace
+        var signupApp = new Vue({
+            el: '#signup',
+            data: {
+                email: '',
+                password: '',
+            },
+
+            methods: {
+
+                onSubmit: function () {
+                    // check if the email already exists       
+                    var users = '';
+                    var newEmail = this.email;
+                    if (localStorage.getItem('users')) { // 'users' is an array of objects            
+                        users = JSON.parse(localStorage.getItem('users'));
+                    };
+                    if (users) {
+                        if (users.some(function (user) { return user.email === newEmail })) {
+                            alert('Email already exists!');
+                            return;
+                        }
+                        // the push method adds new item to array
+                        //If not, the new email/password pair is added to the local storage.
+
+                        users.push({ 'email': newEmail, 'password': this.password });
+                        localStorage.setItem('users', JSON.stringify(users));
+                    } else {
+                        users = [{ 'email': newEmail, 'password': this.password }];
+                        localStorage.setItem('users', JSON.stringify(users));
+                    }
+                }
+            }
+        })
+
+
+        var loginOut = new Vue({
+            el: '#login-out',
+            data: {
+                email: '',
+                password: '',
+            },
+
+            methods: {
+                onSubmit: function () {
+                    // check if the email exists       
+                    var users = '';
+                    var newEmail = this.email;
+                    var newPassword = this.password;
+                    if (localStorage.getItem('users')) { // 'users' is an array of objects            
+                        users = JSON.parse(localStorage.getItem('users'));
+                    };
+                    if (users) {
+                        if (users.some(function (user) { return (user.email === newEmail && user.password === newPassword) })) {
+                            alert('You are logged in!' + newEmail);     
+        
+                            return;
+                        }
+                        
+                        users.push({ 'email': newEmail, 'password': this.password });
+                        localStorage.setItem('users', JSON.stringify(users));
+                    } /*else {
+                        users = [{ 'email': newEmail, 'password': this.password }];
+                        localStorage.setItem('users', JSON.stringify(users));
+                    }*/
+                },
+
+                outSubmit: function () {
+
+                    this.removeUser(this.newEmail);
+                    this.newEmail='';
+                    localStorage.removeItem('users');
+                    
+
+
+                }
+
+              }
+        })
+
+    </script>
+
+    
+
+</div>
+
+</body>
+
+</html>

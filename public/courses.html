@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewWebApp</title>
+    <link rel="stylesheet" href="newWebapp.CSS">
+    <!-- development version, includes helpful console warnings -->
+    <!--This link is to load the view file-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+</head>
+
+<body>
+<div class="grid-container">
+        <header>       
+                <img id='logo' src="" alt="logo"> 
+                <h1>Apply for courses</h1> 
+                
+                   
+    
+
+    
+
+    <form id="search-form" >
+            <p>Search</p>
+            
+            <input required type="text" id="search" v-model='search'>
+            <br><br>
+            <!--v-for is to render course array into filteredlist-->
+            <div v-for="course in filteredList" class="course">
+                    <li v-for='(value, name) in course'>{{name}}: {{value}}</li> 
+                </div>
+        
+            </form>
+      
+    
+        
+    
+   
+    
+    </form>
+</header>
+
+    
+<script>
+
+
+
+    var searchForm = new Vue({
+            el: '#search-form',
+            data: {
+                search: '',
+                courses: [
+        { 'topic': 'math', 'location': 'hendon', 'price': 100 },
+        { 'topic': 'math', 'location': 'colindale', 'price': 80 },
+        { 'topic': 'math', 'location': 'brent cross', 'price': 90 },    
+        { 'topic': 'math', 'location': 'golders green', 'price': 120 },    
+        { 'topic': 'english', 'location': 'hendon', 'price': 110 },    
+        { 'topic': 'english', 'location': 'colindale', 'price': 90 },    
+        { 'topic': 'english', 'location': 'brent cross', 'price': 90 },    
+        { 'topic': 'english', 'location': 'golders green', 'price': 130 },    
+        { 'topic': 'piano', 'location': 'hendon', 'price': 120 },    
+        { 'topic': 'piano', 'location': 'golders green', 'price': 140 }
+           
+          ]
+        },
+      
+        
+
+            computed: {
+                results: function () 
+    // filteredList() {
+    //   return this.courses.filter(course => {
+    //       // include is true and false. Determines whether a string contains the characters of a specified string
+    //     return course.topic.toLowerCase().includes(this.search.toLowerCase())
+    //   })
+    // }
+  }
+
+        /*   computed: {
+    filteredList() {
+      return this.courses.filter(course => {
+        return coures.title.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
+    */
+
+    
+  
+})
+
+    </script>
+
+    <div id="filter">
+        <h1>Filters</h1>
+        <!--Multiple means that many options can be selected in a list.-->
+        <select multiple v-model='selectedTopic'>
+            <option v-for='topic in topics'>
+                {{topic}}
+            </option>
+        </select>
+        <!--Selectedtopics is for user to be able to see the topic selected-->
+        <p> Selectedtopics: {{selectedTopic}}</p>
+        <!--<br>-->
+        <select multiple v-model='selectedLocation'>
+            <option v-for="location in locations">
+                {{location}}
+            </option>
+        </select>
+        <p>Selected location: {{selectedLocation}}</p>
+    
+
+    <button v-on:click='reset'>reset</button>
+
+    <div id="courseList">
+        <h1>Course list</h1>
+        <div v-for="course in filteredCourses" class="course">
+            <li v-for='(value, name) in course'>{{name}}: {{value}}</li>
+        </div>
+    </div>
+    </div>
+
+    
+
+    <script>
+        var filterApp = new Vue({
+            el: '#filter',
+            data: {
+
+            courses: [
+            { 'topic': 'math', 'location': 'hendon', 'price': 100 },
+            { 'topic': 'math', 'location': 'colindale', 'price': 80 },
+            { 'topic': 'math', 'location': 'brent cross', 'price': 90 },
+            { 'topic': 'math', 'location': 'golders green', 'price': 120 },
+            { 'topic': 'english', 'location': 'hendon', 'price': 110 },
+            { 'topic': 'english', 'location': 'colindale', 'price': 90 },
+            { 'topic': 'english', 'location': 'brent cross', 'price': 90 },
+            { 'topic': 'english', 'location': 'golders green', 'price': 130 },
+            { 'topic': 'piano', 'location': 'hendon', 'price': 120 },
+            { 'topic': 'piano', 'location': 'golders green', 'price': 140 }
+        ],
+               // courses: courses,
+                selectedTopic: [],
+                selectedLocation: [],
+                topics: ['math','english','piano'],
+                locations: ['hendon','colindale','brent cross','golders green']
+            
+            },
+            methods: {
+            reset: function() {
+                //Reset is to change the list into how it looked like in the begining
+                this.selectedTopic = [];
+                this.selectedLocation = [];
+
+            }
+
+        },
+        computed: {
+            filteredCourses: function() {
+                var topics = this.selectedTopic, locations = this.selectedLocation;
+                return this.courses.filter(function (course) {
+                    //If any of the topics or the location in the list does not match the selected topics or locations then false
+                    var topicMatch = false, locationMatch = false;
+                    if (topics.length > 0) {
+                        //If the topics includes the topic selected then true
+                        if (topics.includes(course.topic)) {
+                            topicMatch = true;
+                        }
+                    }
+                    else {
+                        topicMatch = true;
+                    }
+                    
+                    if (locations.length > 0) {
+                        //If location includes location selected the true
+                        if (locations.includes(course.location)) {
+                            locationMatch = true;
+                        }
+                    }
+                    else {
+                        locationMatch = true;
+                    }
+                    return topicMatch && locationMatch
+                })
+
+            },
+            
+        }
+        })
+
+        
+    </script>
+
+</div>
+
+</body>
+
+</html>
