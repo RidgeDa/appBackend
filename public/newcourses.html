@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Display courses</title>
+<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id="courseApp">
+<button @click="loadCourse">Display all courses</button>
+<div v-for="course in courses">
+<ul>
+<li v-for="(value, key) in course">
+{{key}}: {{value}}
+</li>
+</ul>
+</div>
+</div>
+</body>
