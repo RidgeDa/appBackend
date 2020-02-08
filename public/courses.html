@@ -26,7 +26,7 @@
 
     <form id="search-form" >
             <p>Search</p>
-            
+            <Button @click='filteredList'>Display all courses</Button>
             <input required type="text" id="search" v-model='search'>
             <br><br>
             <!--v-for is to render course array into filteredlist-->
@@ -68,17 +68,35 @@
           ]
         },
       
+        methods: {
+            filteredList: function () {
+    const data = {'courses':this.courses };
+fetch('http://localhost:3000/lessons', {
+                        method: 'POST', // or 'PUT'
+                        headers: {
+                                  'Content-Type': 'application/json',
+                                },
+                        body: JSON.stringify(data),
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                        console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                        console.error('Error:', error);
+                        });
+},
+},
+
         
 
-            computed: {
-                results: function () 
-    // filteredList() {
-    //   return this.courses.filter(course => {
-    //       // include is true and false. Determines whether a string contains the characters of a specified string
-    //     return course.topic.toLowerCase().includes(this.search.toLowerCase())
-    //   })
-    // }
-  }
+        computed: {
+    filteredList() {
+      return this.courses.filter(course => {
+        return course.topic.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
+        
 
         /*   computed: {
     filteredList() {
@@ -88,9 +106,9 @@
     }
     */
 
-    
+  }  
   
-})
+});
 
     </script>
 

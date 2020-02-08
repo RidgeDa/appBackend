@@ -8,154 +8,188 @@
     <link rel="stylesheet" href="newWebapp.CSS">
     <!-- development version, includes helpful console warnings -->
     <!--This link is to load the view file-->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue"></script>
 
 
 </head>
 
 <body>
-<div class="grid-container">
-        <header>       
-                <img id='logo' src="" alt="logo"> 
-                <h1>Apply for courses</h1> 
-                
-                   
-       <!--This is to create the registation form so that user could type in an email and password-->         
-    <form id="signup" method="POST" action="/collections/signUp">
-        <h1>Signup</h1>
-        <!--the for attribute specifies which form element a label is bound to-->
-        <label for="email">email: </label>
-        <!--The required type specifies that an input field must be filled out before submitting the form-->
-        <input required type="email" id="email" v-model='email'>
-        <br><br>
-        <label for="password">password: </label>
-        <!--The v-model directive binds the value of HTML elements to application data-->
-        <input required type="password" id="password" v-model='password'>
-        <br><br>
-        <!--v-on:click is to listen to events and run some javascript when triggerd-->
-        <button v-on:click='onSubmit'>SignUp</button>
-    </form>
-    <br><br>
-    
-    
-  
-<!--Action is there to take the user to the studentParents page when logged in-->
-    <form id="login-out" action="courses.html">
-        <p>Login</p>
-        <label for="email">email: </label>
-        <input required type="email" id="email" v-model='email'>
-        <br><br>
-        <label for="password">password: </label>
-        <input required type="password" id="password" v-model='password'>
-        <br><br>
-        <label for="role">Role:</label>
-        <select name="role" v-model="currentRole" >
-            <option>student</option>
-            <option>parent</option>
-            <option value="provider">Service Provider</option>
-        </select>
-        <br><br>
-        <button v-on:click='onSubmit'>Login</button>
-        <br><br>
-        <button v-on:click='outSubmit'>Logout</button>
-    </form>
-
-</header>
-
-    
-<script>
-//This is a view instace
-        var signupApp = new Vue({
-            el: '#signup',
-            data: {
-                email: '',
-                password: '',
-            },
-
-            methods: {
-
-                onSubmit: function () {
-                    // check if the email already exists       
-                    var users = '';
-                    var newEmail = this.email;
-                    fetch('http://localhost:3000/signup').then(     
-                        function(response) {         
-                            response.text().then(             
-                                function(text) {                 
-                                    alert(text);             
-                                });     
-                            });
-                    // if (localStorage.getItem('users')) { // 'users' is an array of objects            
-                    //     users = JSON.parse(localStorage.getItem('users'));
-                    // };
-                    // if (users) {
-                    //     if (users.some(function (user) { return user.email === newEmail })) {
-                    //         alert('Email already exists!');
-                    //         return;
-                    //     }
-                    //     // the push method adds new item to array
-                    //     //If not, the new email/password pair is added to the local storage.
-
-                    //     users.push({ 'email': newEmail, 'password': this.password });
-                    //     localStorage.setItem('users', JSON.stringify(users));
-                    // } else {
-                    //     users = [{ 'email': newEmail, 'password': this.password }];
-                    //     localStorage.setItem('users', JSON.stringify(users));
-                    // }
-                }
-            }
-        })
+    <div class="grid-container">
+        <header>
+            <img id='logo' src="" alt="logo">
+            <h1>Apply for courses</h1>
 
 
-        var loginOut = new Vue({
-            el: '#login-out',
-            data: {
-                email: '',
-                password: '',
-            },
+            <!--This is to create the registation form so that user could type in an email and password-->
+            <form id="signup">
+                <h1>Signup</h1>
+                <!--the for attribute specifies which form element a label is bound to-->
+                <label for="email">email: </label>
+                <!--The required type specifies that an input field must be filled out before submitting the form-->
+                <input required type="email" id="email" v-model='email'>
+                <br><br>
+                <label for="password">password: </label>
+                <!--The v-model directive binds the value of HTML elements to application data-->
+                <input required type="password" id="password" v-model='password'>
+                <br><br>
+                <!--v-on:click is to listen to events and run some javascript when triggerd-->
+                <button v-on:click='onSubmit'>SignUp</button>
+            </form>
+            <br><br>
 
-            methods: {
-                onSubmit: function () {
-                    // check if the email exists       
-                    var users = '';
-                    var newEmail = this.email;
-                    var newPassword = this.password;
-                    if (localStorage.getItem('users')) { // 'users' is an array of objects            
-                        users = JSON.parse(localStorage.getItem('users'));
-                    };
-                    if (users) {
-                        if (users.some(function (user) { return (user.email === newEmail && user.password === newPassword) })) {
-                            alert('You are logged in!' + newEmail);     
-        
-                            return;
-                        }
-                        
-                        users.push({ 'email': newEmail, 'password': this.password });
-                        localStorage.setItem('users', JSON.stringify(users));
-                    } /*else {
-                        users = [{ 'email': newEmail, 'password': this.password }];
-                        localStorage.setItem('users', JSON.stringify(users));
-                    }*/
+
+
+            <!--Action is there to take the user to the studentParents page when logged in-->
+            <form id="login-out" action="courses.html">
+                <p>Login</p>
+                <label for="email">email: </label>
+                <input required type="email" id="email" v-model='email'>
+                <br><br>
+                <label for="password">password: </label>
+                <input required type="password" id="password" v-model='password'>
+                <br><br>
+                <!-- <label for="role">Role:</label>
+                <select name="role" v-model="currentRole">
+                    <option>student</option>
+                    <option>parent</option>
+                    <option value="provider">Service Provider</option>
+                </select> -->
+                <br><br>
+                <button v-on:click='onSubmit'>Login</button>
+                <br><br>
+                <button v-on:click='outSubmit'>Logout</button>
+            </form>
+
+        </header>
+
+
+        <script>
+            //This is a view instace
+            var signupApp = new Vue({
+                el: '#signup',
+                data: {
+                    email: 'hhh',
+                    password: 'hhh',
                 },
 
-                outSubmit: function () {
+                methods: {
 
-                    this.removeUser(this.newEmail);
-                    this.newEmail='';
-                    localStorage.removeItem('users');
-                    
+                    onSubmit: function () {
+                        // check if the email already exists       
+                        var users = '';
+                        var newEmail = this.email;
+                       
+                        const data = {'email':this.email, 'password':this.password };
 
+                        fetch('http://localhost:3000/signUp', {
+                        method: 'POST', // or 'PUT'
+                        headers: {
+                                  'Content-Type': 'application/json',
+                                },
+                        body: JSON.stringify(data),
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                        console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                        console.error('Error:', error);
+                        });
+                    },
+
+                },
+                
+
+                // if (localStorage.getItem('users')) { // 'users' is an array of objects            
+                //     users = JSON.parse(localStorage.getItem('users'));
+                // };
+                // if (users) {
+                //     if (users.some(function (user) { return user.email === newEmail })) {
+                //         alert('Email already exists!');
+                //         return;
+                //     }
+                //     // the push method adds new item to array
+                //     //If not, the new email/password pair is added to the local storage.
+
+                //     users.push({ 'email': newEmail, 'password': this.password });
+                //     localStorage.setItem('users', JSON.stringify(users));
+                // } else {
+                //     users = [{ 'email': newEmail, 'password': this.password }];
+                //     localStorage.setItem('users', JSON.stringify(users));
+                // }
+
+
+            });
+
+
+            var loginOut = new Vue({
+                el: '#login-out',
+                data: {
+                    email: '',
+                    password: '',
+                },
+
+                methods: {
+                    onSubmit: function () {
+                        // check if the email exists       
+                        var users = '';
+                        var newEmail = this.email;
+                        var newPassword = this.password;
+                        
+                        const data = {'email':this.email, 'password':this.password };
+
+                        fetch('http://localhost:3000/login', {
+                        method: 'POST', // or 'PUT'
+                        headers: {
+                                  'Content-Type': 'application/json',
+                                },
+                        body: JSON.stringify(data),
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                        console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                        console.error('Error:', error);
+                        });
+                     
+
+                    //     if (localStorage.getItem('users')) { // 'users' is an array of objects            
+                    //         users = JSON.parse(localStorage.getItem('users'));
+                    //     };
+                    //     if (users) {
+                    //         if (users.some(function (user) { return (user.email === newEmail && user.password === newPassword) })) {
+                    //             alert('You are logged in!' + newEmail);
+
+                    //             return;
+                    //         }
+
+                    //         users.push({ 'email': newEmail, 'password': this.password });
+                    //         localStorage.setItem('users', JSON.stringify(users));
+                    //     } /*else {
+                    //     users = [{ 'email': newEmail, 'password': this.password }];
+                    //     localStorage.setItem('users', JSON.stringify(users));
+                    // }*/
+                    },
+
+                    outSubmit: function () {
+
+                        this.removeUser(this.newEmail);
+                        this.newEmail = '';
+                        localStorage.removeItem('users');
+
+
+
+                    }
 
                 }
+            })
 
-              }
-        })
+        </script>
 
-    </script>
 
-    
 
-</div>
+    </div>
 
 </body>
 
